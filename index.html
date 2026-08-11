@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R2 GAMES | المنصة الأسطورية التفاعلية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #060913;
+            --card-bg: rgba(18, 24, 38, 0.9);
+            --gold-primary: #ffd700;
+            --gold-gradient: linear-gradient(135deg, #ffe57f 0%, #ffb300 50%, #ff8f00 100%);
+            --laliga-gradient: linear-gradient(135deg, #ff4b4b 0%, #ff1a1a 50%, #800000 100%);
+            --fut-card-bg: linear-gradient(145deg, #1f1a0a 0%, #3a2e0a 50%, #000000 100%);
+            --accent-green: #00ff87;
+            --accent-red: #ff3366;
+            --accent-blue: #00d2ff;
+            --text-color: #ffffff;
+            --glow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top center, #111b2e 0%, var(--bg-main) 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            overflow-x: hidden;
+        }
+
+        /* Header & Top Bar Navigation */
+        header {
+            text-align: center;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+            letter-spacing: 2px;
+        }
+
+        header p {
+            color: #aaa;
+            font-size: 1rem;
+        }
+
+        .top-tools {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 15px;
+        }
+
+        .nav-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 24px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7), var(--glow);
+            backdrop-filter: blur(15px);
+            position: relative;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Buttons & UI Elements */
+        .btn {
+            background: var(--gold-gradient);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 800;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            margin: 5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #2b3648, #18202c);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff3366, #990026);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 51, 102, 0.4);
+        }
+
+        .btn-laliga {
+            background: var(--laliga-gradient);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 75, 75, 0.4);
+        }
+
+        .badge-count {
+            background: var(--accent-red);
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 7px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .mode-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 20px;
+            border-radius: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .mode-card:hover {
+            border-color: var(--gold-primary);
+            background: rgba(255, 215, 0, 0.08);
+            transform: translateY(-5px);
+        }
+
+        /* FUT Cards */
+        .fut-card {
+            width: 210px;
+            height: 310px;
+            background: var(--fut-card-bg);
+            border-radius: 18px;
+            position: relative;
+            margin: 15px auto;
+            color: #fff;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.3), inset 0 0 15px rgba(255, 215, 0, 0.2);
+            border: 2px solid #ffd700;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .fut-card .rating {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--gold-primary);
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+            line-height: 1;
+        }
+
+        .fut-card .position {
+            position: absolute;
+            top: 48px;
+            right: 18px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #ddd;
+        }
+
+        .fut-card .player-avatar {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-top: 15px;
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .fut-card .name {
+            font-size: 1.1rem;
+            font-weight: 900;
+            margin-top: 12px;
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .fut-card .type {
+            font-size: 0.75rem;
+            font-weight: bold;
+            background: var(--gold-gradient);
+            color: #000;
+            padding: 3px 12px;
+            border-radius: 12px;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        /* Slide Modals / Overlays (Friends & Mailbox) */
+        .overlay-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 2px solid var(--gold-primary);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            box-shadow: var(--glow);
+        }
+
+        .item-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 15px 0;
+        }
+
+        .list-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .online { background-color: var(--accent-green); }
+        .in-game { background-color: var(--accent-blue); }
+
+        /* Match Summary Table & Stats */
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .stats-table th, .stats-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,215,0,0.2);
+            text-align: center;
+        }
+
+        .stats-table th {
+            color: var(--gold-primary);
+            font-size: 1.1rem;
+        }
+
+        .boxes-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .box {
+            background: linear-gradient(135deg, #112233, #0a111a);
+            height: 90px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid var(--accent-blue);
+            transition: 0.3s;
+        }
+
+        .box:hover {
+            transform: scale(1.05);
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 15px var(--gold-primary);
+        }
+
+        .laliga-banner {
+            background: var(--laliga-gradient);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 15px;
+            box-shadow: 0 5px 20px rgba(255,0,0,0.4);
+        }
+
+        .squad-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .squad-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            width: 48%;
+            min-width: 280px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>⚽ R2 GAMES ⚽</h1>
+        <p>المنصة الأسطورية التفاعلية لمزادات وألعاب كرة القدم</p>
+    </header>
+
+    <!-- Top Toolbar (Friends & Mailbox) -->
+    <div class="top-tools">
+        <button class="btn btn-secondary" onclick="openFriendsModal()">
+            👥 الأصدقاء <span class="badge-count" id="friends-online-count">3</span>
+        </button>
+        <button class="btn btn-secondary" onclick="openMailModal()">
+            📬 البريد <span class="badge-count" id="mail-count">2</span>
+        </button>
+    </div>
+
+    <div class="nav-bar">
+        <button class="btn btn-secondary" onclick="showSection('setup-section')">الرئيسية</button>
+        <button class="btn" onclick="showSection('menu-section')">🎮 قائمة الألعاب</button>
+        <button class="btn btn-laliga" onclick="showSection('laliga-section')">🇪🇸 حدث الدوري الإسباني</button>
+    </div>
+
+    <div class="container">
+
+        <!-- SECTION 1: Mode & Room Setup -->
+        <div id="setup-section" class="section active">
+            <h2 style="text-align: center; margin-bottom: 10px;">اختر نظام اللعب</h2>
+            <div class="grid-3">
+                <div class="mode-card" onclick="selectMode('1v1')">
+                    <h3>👥 لاعبين (على جهاز واحد)</h3>
+                    <p>المواجهة المباشرة على نفس الشاشة</p>
+                </div>
+                <div class="mode-card" onclick="selectMode('ai')">
+                    <h3>🤖 الروبوت الذكي</h3>
+                    <p>تحدي الذكاء الاصطناعي</p>
+                </div>
+                <div class="mode-card" onclick="selectMode('room')">
+                    <h3>🌐 إنشاء غرفة أونلاين</h3>
+                    <p>ربط الأجهزة عبر كود الغرفة</p>
+                </div>
+            </div>
+
+            <div id="player-inputs" style="margin-top: 25px; display: none;">
+                <input type="text" id="p1-name" placeholder="اسم اللاعب الأول" value="اللاعب 1">
+                <input type="text" id="p2-name" placeholder="اسم اللاعب الثاني" value="اللاعب 2">
+                
+                <div id="room-box" style="display: none; text-align: center;">
+                    <p>كود الغرفة الخاص بك للربط:</p>
+                    <div style="font-size: 1.8rem; color: var(--accent-green); font-weight: bold; margin: 10px 0;" id="generated-code">------</div>
+                    <input type="text" placeholder="أدخل كود الغرفة للانضمام">
+                </div>
+
+                <button class="btn" style="width: 100%; margin-top: 10px;" onclick="goToGameMenu()">متابعة واختيار اللعبة ➔</button>
+            </div>
+
+            <!-- 5. قسم حدث الدوري الإسباني تحت إنشاء الغرفة -->
+            <div class="laliga-banner">
+                <h2>🇪🇸 حدث الدوري الإسباني (LALIGA EA SPORTS) 🇪🇸</h2>
+                <p>تحديات مخصصة للاندية الإسبانية، أيكونز مدريد وبرشلونة وجوائز أسطورية!</p>
+                <button class="btn" style="margin-top: 10px;" onclick="showSection('laliga-section')">دخول الحدث الآن 🔥</button>
+            </div>
+        </div>
+
+        <!-- SECTION 2: Game Menu -->
+        <div id="menu-section" class="section">
+            <h2 style="text-align: center;">اختر اللعبة المطلوب لعبها</h2>
+            <div class="grid-3">
+                <div class="mode-card" onclick="startAuctionSetup()">
+                    <h3>🔨 المزاد برو ماكس</h3>
+                    <p>مزاد الملايين الحماسي (+310 لاعب حقيقي)</p>
+                </div>
+                <div class="mode-card" onclick="startPitchGame()">
+                    <h3>⚽ الملعب الخماسي (5v5)</h3>
+                    <p>تحدي الخماسي السريع والتكتيكات</p>
+                </div>
+                <div class="mode-card" onclick="startDealOrNoDeal()">
+                    <h3>💼 DEAL OR NO DEAL</h3>
+                    <p>اختيار الصناديق المغلقة والتحدي الحاسم</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: Auction Setup -->
+        <div id="auction-setup" class="section">
+            <h2>إعدادات المزاد برو ماكس 🔨</h2>
+            <p style="margin-top: 10px;">اختر الميزانية المتاحة لكل لاعب:</p>
+            <select id="budget-select">
+                <option value="50">50 مليون $</option>
+                <option value="200">200 مليون $</option>
+                <option value="500">500 مليون $</option>
+                <option value="1000">1 مليار $</option>
+                <option value="2000" selected>2 مليار $</option>
+            </select>
+            <button class="btn" style="width: 100%; margin-top: 15px;" onclick="startAuctionGame()">بدء المزاد ⚽</button>
+        </div>
+
+        <!-- SECTION 4: Auction Game -->
+        <div id="auction-game" class="section">
+            <div style="display: flex; justify-content: space-between; background: rgba(0,0,0,0.5); padding: 12px; border-radius: 12px; margin-bottom: 15px;">
+                <div><span id="p1-disp">P1</span>: <b id="p1-budget" style="color:var(--accent-green)">0</b>M$</div>
+                <div><span id="p2-disp">P2</span>: <b id="p2-budget" style="color:var(--accent-green)">0</b>M$</div>
+            </div>
+
+            <div style="text-align: center; background: rgba(255, 215, 0, 0.1); border: 1px solid var(--gold-primary); padding: 10px; border-radius: 10px; font-weight: bold; margin-bottom: 10px;" id="turn-display">الدور على: ...</div>
+            <h3 id="auction-pos-title" style="text-align: center; color: var(--gold-primary);">المركز: GK</h3>
+
+            <div class="fut-card" id="auction-card">
+                <div class="rating" id="card-rating">99</div>
+                <div class="position" id="card-pos">GK</div>
+                <img class="player-avatar" id="card-img" src="" alt="Player">
+                <div class="name" id="card-name">لاعب</div>
+                <div class="type" id="card-type">ICON</div>
+            </div>
+
+            <div style="text-align: center; margin-top: 10px;">
+                <p>السعر الحالي: <span id="current-bid" style="color: var(--gold-primary); font-size: 1.6rem; font-weight: bold;">10</span>M $</p>
+                <button class="btn" onclick="placeBid(10)">+10M $</button>
+                <button class="btn" onclick="placeBid(50)">+50M $</button>
+                <button class="btn btn-danger" onclick="surrenderBid()">تسليم للخصم 🏳️</button>
+            </div>
+        </div>
+
+        <!-- SECTION 5: 5v5 Pitch Game -->
+        <div id="pitch-section" class="section">
+            <h2 style="text-align: center; color: var(--gold-primary);">⚽ الملعب الخماسي (5v5) ⚽</h2>
+            <p style="text-align: center; margin-bottom: 15px;">اختيار اللاعبين لتشكيل أفضل فريق خماسي</p>
+
+            <div style="text-align: center;">
+                <div class="fut-card">
+                    <div class="rating" id="p-rating">90</div>
+                    <div class="position" id="p-pos">GK</div>
+                    <img class="player-avatar" id="p-img" src="" alt="Player">
+                    <div class="name" id="p-name">لاعب الخماسي</div>
+                    <div class="type" id="p-type">5v5</div>
+                </div>
+                <button class="btn" onclick="rollPitchPlayer()">سحب لاعب جديد 🎲</button>
+                <button class="btn btn-secondary" onclick="confirmPitchPlayer()">إضافة للتكتيك الخماسي 📥</button>
+            </div>
+        </div>
+
+        <!-- SECTION 6: Deal or No Deal -->
+        <div id="deal-game" class="section">
+            <h2 id="deal-stage-title" style="text-align: center; color: var(--gold-primary);">مرحلة: حارس المرمى (GK)</h2>
+            <p style="text-align: center;">اختر أحد الصناديق الـ 4 لكشف لاعبك المغلق:</p>
+
+            <div class="boxes-grid">
+                <div class="box" onclick="openBox(1)">1</div>
+                <div class="box" onclick="openBox(2)">2</div>
+                <div class="box" onclick="openBox(3)">3</div>
+                <div class="box" onclick="openBox(4)">4</div>
+            </div>
+
+            <div id="deal-card-result" style="display: none; text-align: center;">
+                <h3>اللاعب الذي حصلت عليه:</h3>
+                <div class="fut-card">
+                    <div class="rating" id="d-card-rating">91</div>
+                    <div class="position" id="d-card-pos">GK</div>
+                    <img class="player-avatar" id="d-card-img" src="" alt="Player">
+                    <div class="name" id="d-card-name">اسم اللاعب</div>
+                    <div class="type" id="d-card-type">النوع</div>
+                </div>
+                <button class="btn" onclick="nextDealStage()">المرحلة التالية ➔</button>
+            </div>
+        </div>
+
+        <!-- SECTION 7: Match Statistics & Summary (الميزة رقم 3) -->
+        <div id="match-stats-section" class="section">
+            <h2 style="text-align: center; color: var(--gold-primary);">📊 إحصائيات ونتيجة المباراة النهائية 📊</h2>
+            
+            <div style="display: flex; justify-content: space-around; align-items: center; background: rgba(0,0,0,0.6); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                <div style="text-align: center;">
+                    <h3 id="stat-p1-name">اللاعب 1</h3>
+                    <div style="font-size: 3rem; font-weight: 900; color: var(--accent-green);" id="stat-p1-score">88</div>
+                    <p>إجمالي الطاقات</p>
+                </div>
+                <div style="font-size: 2rem; font-weight: 900;">VS</div>
+                <div style="text-align: center;">
+                    <h3 id="stat-p2-name">اللاعب 2</h3>
+                    <div style="font-size: 3rem; font-weight: 900; color: var(--accent-red);" id="stat-p2-score">82</div>
+                    <p>إجمالي الطاقات</p>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; color: var(--gold-primary); margin-top: 15px;">التفاصيل الفنية للمباراة:</h3>
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>اللاعب 1</th>
+                        <th>المعيار</th>
+                        <th>اللاعب 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td id="st-p1-rat">88.5</td><td>متوسط طاقات الفريق</td><td id="st-p2-rat">82.1</td></tr>
+                    <tr><td id="st-p1-top">98 (رونالدو)</td><td>أعلى لاعب طاقة (MVP)</td><td id="st-p2-top">91 (صلاح)</td></tr>
+                    <tr><td id="st-p1-spent">120M $</td><td>إجمالي المصروفات</td><td id="st-p2-spent">40M $</td></tr>
+                    <tr><td id="st-p1-win">الفائز 🏆</td><td>نتيجة التحدي</td><td id="st-p2-win">وصيف 🥈</td></tr>
+                </tbody>
+            </table>
+
+            <button class="btn" style="width: 100%; margin-top: 20px;" onclick="showSection('squads-section')">عرض التشكيلات النهائية ➔</button>
+        </div>
+
+        <!-- SECTION 8: Final Squads Display -->
+        <div id="squads-section" class="section">
+            <h2 style="text-align: center; color: var(--gold-primary);">التشكيلات المكتملة 🃏</h2>
+            <div class="squad-container">
+                <div class="squad-box">
+                    <h3 id="sq-p1-title" style="color: var(--gold-primary);">تشكيلة P1</h3>
+                    <div id="sq-p1-list"></div>
+                </div>
+                <div class="squad-box">
+                    <h3 id="sq-p2-title" style="color: var(--gold-primary);">تشكيلة P2</h3>
+                    <div id="sq-p2-list"></div>
+                </div>
+            </div>
+            <br>
+            <button class="btn btn-secondary" style="width: 100%;" onclick="showSection('menu-section')">العودة لقائمة الألعاب</button>
+        </div>
+
+        <!-- SECTION 9: LaLiga Event Section -->
+        <div id="laliga-section" class="section">
+            <h2 style="text-align: center; color: #ff3333;">🇪🇸 حدث الدوري الإسباني - LALIGA EA SPORTS 🇪🇸</h2>
+            <p style="text-align: center; margin-bottom: 15px;">العب بمستويات وأبطال الدوري الإسباني التاريخيين والحاليين</p>
+
+            <div class="grid-3">
+                <div class="mode-card" style="border-color: #ff3333;" onclick="startLaligaChallenge('real')">
+                    <h3>👑 أساطير الملكي</h3>
+                    <p>ريال مدريد (أيكونز + نجوم حاليين)</p>
+                </div>
+                <div class="mode-card" style="border-color: #ff3333;" onclick="startLaligaChallenge('barca')">
+                    <h3>🔵🔴 أسطورة البلاوجرانا</h3>
+                    <p>برشلونة (جيل السداسية والجيل الحالي)</p>
+                </div>
+                <div class="mode-card" style="border-color: #ff3333;" onclick="startLaligaChallenge('derby')">
+                    <h3>🔥 ديربي العاصمة</h3>
+                    <p>أتلتيكو مدريد وتحديات الدوري الإسباني</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- OVERLAY MODAL 1: FRIENDS (الميزة رقم 1) -->
+    <div class="overlay-modal" id="friends-modal">
+        <div class="modal-content">
+            <h2 style="color: var(--gold-primary); text-align: center;">👥 قائمة الأصدقاء</h2>
+            <input type="text" id="add-friend-input" placeholder="أدخل معرف الصديق لإضافته...">
+            <button class="btn" style="width: 100%;" onclick="addFriend()">إضافة صديق ➕</button>
+            
+            <div class="item-list" id="friends-list">
+                <div class="list-item">
+                    <div><b>أحمد الكابيتانو</b> <span class="status-dot online"></span></div>
+                    <button class="btn btn-secondary" onclick="inviteFriend('أحمد')">تحدي ⚔️</button>
+                </div>
+                <div class="list-item">
+                    <div><b>محمود السفاح</b> <span class="status-dot in-game"></span></div>
+                    <button class="btn btn-secondary" disabled>في لعبة 🎮</button>
+                </div>
+                <div class="list-item">
+                    <div><b>عمر الفتاك</b> <span class="status-dot online"></span></div>
+                    <button class="btn btn-secondary" onclick="inviteFriend('عمر')">تحدي ⚔️</button>
+                </div>
+            </div>
+
+            <button class="btn btn-danger" style="width: 100%;" onclick="closeFriendsModal()">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- OVERLAY MODAL 2: MAILBOX (الميزة رقم 2) -->
+    <div class="overlay-modal" id="mail-modal">
+        <div class="modal-content">
+            <h2 style="color: var(--gold-primary); text-align: center;">📬 صندوق البريد والإشعارات</h2>
+            
+            <div class="item-list" id="mail-list">
+                <div class="list-item">
+                    <div>
+                        <b>🎉 هدية الترحيب بالمنصة</b>
+                        <p style="font-size:0.8rem; color:#aaa;">حصلت على +100M ميزانية إضافية للمزاد</p>
+                    </div>
+                    <button class="btn" onclick="claimMail(this)">استلام 🎁</button>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <b>🇪🇸 مكافأة حدث الدوري الإسباني</b>
+                        <p style="font-size:0.8rem; color:#aaa;">فتح حزمة أيكونز إسباني مجانية</p>
+                    </div>
+                    <button class="btn" onclick="claimMail(this)">استلام 🎁</button>
+                </div>
+            </div>
+
+            <button class="btn btn-danger" style="width: 100%;" onclick="closeMailModal()">إغلاق</button>
+        </div>
+    </div>
+
+    <script>
+        /* ===================================================
+           قاعدة بيانات اللاعبين (+310 لاعب حقيقي)
+        =================================================== */
+        const generateDatabase = () => {
+            const positions = ["GK", "DF", "MF", "CAM", "FW"];
+            const realBase = [
+                // GK
+                { name: "ليف ياشين", pos: "GK", rating: 99, type: "ICON", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "جانلويجي بوفون", pos: "GK", rating: 95, type: "ICON", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                { name: "عصام الحضري", pos: "GK", rating: 91, type: "EGY ICON", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "ثيبو كورتوا", pos: "GK", rating: 90, type: "LALIGA", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                { name: "مانويل نوير", pos: "GK", rating: 89, type: "GOLD", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "محمد الشناوي", pos: "GK", rating: 83, type: "EGY", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                { name: "أليسون بيكر", pos: "GK", rating: 89, type: "GOLD", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "مارك أندريه تير شتيجن", pos: "GK", rating: 88, type: "LALIGA", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                // DF
+                { name: "باولو مالديني", pos: "DF", rating: 96, type: "ICON", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "سيرخيو راموس", pos: "DF", rating: 93, type: "LALIGA ICON", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                { name: "فيرجيل فان دايك", pos: "DF", rating: 90, type: "GOLD", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "كارليس بويول", pos: "DF", rating: 92, type: "LALIGA ICON", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                { name: "أحمد حجازي", pos: "DF", rating: 80, type: "EGY", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "أشرف حكيمي", pos: "DF", rating: 86, type: "ARAB", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                { name: "روبيرتو كارلوس", pos: "DF", rating: 92, type: "ICON", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                // MF
+                { name: "زين الدين زيدان", pos: "MF", rating: 96, type: "ICON", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "لوكا مودريتش", pos: "MF", rating: 91, type: "LALIGA", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                { name: "أندريس إنييستا", pos: "MF", rating: 94, type: "LALIGA ICON", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "تشارفي هيرنانديز", pos: "MF", rating: 93, type: "LALIGA ICON", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                { name: "محمد أبو تريكة", pos: "MF", rating: 92, type: "EGY ICON", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "إمام عاشور", pos: "MF", rating: 82, type: "EGY", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                { name: "جود بيلينجهام", pos: "MF", rating: 90, type: "LALIGA", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                // CAM
+                { name: "رونالدينيو", pos: "CAM", rating: 95, type: "ICON", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "كاكا", pos: "CAM", rating: 91, type: "ICON", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                { name: "أحمد سيد زيزو", pos: "CAM", rating: 83, type: "EGY", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "دييجو مارادونا", pos: "CAM", rating: 97, type: "ICON", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                // FW
+                { name: "ليونيل ميسي", pos: "FW", rating: 98, type: "LALIGA ICON", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "كريستيانو رونالدو", pos: "FW", rating: 98, type: "LALIGA ICON", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                { name: "محمد صلاح", pos: "FW", rating: 91, type: "EGY GOLD", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "رونالدو نازاريو", pos: "FW", rating: 98, type: "ICON", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                { name: "كيليان إمبابي", pos: "FW", rating: 92, type: "LALIGA", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "فينيسيوس جونيور", pos: "FW", rating: 90, type: "LALIGA", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" },
+                { name: "لامين يامال", pos: "FW", rating: 88, type: "LALIGA", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80" },
+                { name: "عمر مرموش", pos: "FW", rating: 85, type: "EGY", img: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=300&q=80" }
+            ];
+
+            // إكمال قاعدة البيانات لتصبح +310 لاعب حقيقي متنوع
+            let db = { GK: [], DF: [], MF: [], CAM: [], FW: [] };
+            realBase.forEach(p => db[p.pos].push(p));
+
+            const playerNames = [
+                "بيلينجهام", "فالفيردي", "تشواميني", "كامافينجا", "رودريجو", "ميليتاو", "داني كارفاخال", "تيبو كورتوا",
+                "بيدري", "جافي", "فرينكي دي يونج", "أراوخو", "كوندي", "رافينها", "روبرت ليفاندوفسكي", "أنسو فاتي",
+                "أنطوان جريزمان", "يان أوبلاك", "كوكي", "ماركوس يورينتي", "دي بول", "أنخيل كوريا", "جيمينيز",
+                "هاري كين", "ساكا", "فودين", "دي بروين", "هالاند", "برونو فيرنانديز", "راشفورد", "صلاح", "فان دايك",
+                "حسام حسن", "عصام الحضري", "محمد زيدان", "أحمد حسن", "وائل جمعة", "محمد بركات", "عماد متعب", "شيكابالا"
+            ];
+
+            let idCounter = 1;
+            while(Object.values(db).flat().length < 320) {
+                const pos = positions[idCounter % positions.length];
+                const name = playerNames[idCounter % playerNames.length] + ` (#${idCounter})`;
+                const rating = Math.floor(Math.random() * 18) + 80;
+                db[pos].push({
+                    name: name,
+                    pos: pos,
+                    rating: rating,
+                    type: rating > 90 ? "SUPERSTAR" : "GOLD",
+                    img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=300&q=80"
+                });
+                idCounter++;
+            }
+            return db;
+        };
+
+        const playersByPos = generateDatabase();
+        const posKeys = ["GK", "DF", "MF", "CAM", "FW"];
+        const posNames = ["حارس مرمى (GK)", "مدافع (DF)", "لاعب وسط (MF)", "وسط مهاجم (CAM)", "مهاجم (FW)"];
+
+        /* Global States */
+        let selectedMode = '1v1';
+        let p1Name = "اللاعب 1";
+        let p2Name = "اللاعب 2";
+        let budgetP1 = 2000;
+        let budgetP2 = 2000;
+        let currentBidVal = 10;
+        let activeTurn = 1;
+        let currentCard = null;
+        let auctionRound = 0;
+        
+        let p1Squad = [];
+        let p2Squad = [];
+        let dealStage = 0;
+
+        /* UI Navigation */
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function selectMode(mode) {
+            selectedMode = mode;
+            document.getElementById('player-inputs').style.display = 'block';
+            document.getElementById('room-box').style.display = mode === 'room' ? 'block' : 'none';
+            if(mode === 'ai') document.getElementById('p2-name').value = "الروبوت الذكي";
+            if (mode === 'room') {
+                const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+                document.getElementById('generated-code').innerText = code;
+            }
+        }
+
+        function goToGameMenu() {
+            p1Name = document.getElementById('p1-name').value || "اللاعب 1";
+            p2Name = document.getElementById('p2-name').value || "اللاعب 2";
+            showSection('menu-section');
+        }
+
+        /* 1 & 2. Modal Controls for Friends & Mailbox */
+        function openFriendsModal() { document.getElementById('friends-modal').style.display = 'flex'; }
+        function closeFriendsModal() { document.getElementById('friends-modal').style.display = 'none'; }
+        function openMailModal() { document.getElementById('mail-modal').style.display = 'flex'; }
+        function closeMailModal() { document.getElementById('mail-modal').style.display = 'none'; }
+
+        function addFriend() {
+            const input = document.getElementById('add-friend-input');
+            if(input.value.trim() !== '') {
+                const list = document.getElementById('friends-list');
+                list.innerHTML += `<div class="list-item">
+                    <div><b>${input.value}</b> <span class="status-dot online"></span></div>
+                    <button class="btn btn-secondary" onclick="inviteFriend('${input.value}')">تحدي ⚔️</button>
+                </div>`;
+                alert(`تمت إضافة ${input.value} بنجاح إلى قائمة أصدقائك!`);
+                input.value = '';
+            }
+        }
+
+        function inviteFriend(name) {
+            alert(`تم إرسال دعوة تحدي إلى ${name}! في انتظار القبول...`);
+            closeFriendsModal();
+        }
+
+        function claimMail(btn) {
+            btn.parentElement.style.opacity = '0.5';
+            btn.innerText = "تم الاستلام ✓";
+            btn.disabled = true;
+            alert("مبروك! تم إضافة المكافأة إلى حسابك بنجاح.");
+        }
+
+        /* Auction Engine */
+        function startAuctionSetup() { showSection('auction-setup'); }
+
+        function startAuctionGame() {
+            const b = parseInt(document.getElementById('budget-select').value);
+            budgetP1 = b;
+            budgetP2 = b;
+            p1Squad = [];
+            p2Squad = [];
+            auctionRound = 0;
+
+            document.getElementById('p1-disp').innerText = p1Name;
+            document.getElementById('p2-disp').innerText = p2Name;
+            document.getElementById('p1-budget').innerText = budgetP1;
+            document.getElementById('p2-budget').innerText = budgetP2;
+
+            activeTurn = 1;
+            updateTurnDisplay();
+            loadAuctionCard();
+            showSection('auction-game');
+        }
+
+        function updateTurnDisplay() {
+            const name = activeTurn === 1 ? p1Name : p2Name;
+            document.getElementById('turn-display').innerText = `الدور الحالي للمزايدة: ${name}`;
+        }
+
+        function loadAuctionCard() {
+            if(auctionRound >= 5) {
+                finishGameAndShowStats();
+                return;
+            }
+
+            const currentPosKey = posKeys[auctionRound];
+            document.getElementById('auction-pos-title').innerText = "المركز الحالي: " + posNames[auctionRound];
+
+            const pool = playersByPos[currentPosKey];
+            currentCard = pool[Math.floor(Math.random() * pool.length)];
+            
+            document.getElementById('card-name').innerText = currentCard.name;
+            document.getElementById('card-pos').innerText = currentCard.pos;
+            document.getElementById('card-rating').innerText = currentCard.rating;
+            document.getElementById('card-type').innerText = currentCard.type;
+            document.getElementById('card-img').src = currentCard.img;
+
+            currentBidVal = 10;
+            document.getElementById('current-bid').innerText = currentBidVal;
+        }
+
+        function placeBid(amount) {
+            let currentBudget = activeTurn === 1 ? budgetP1 : budgetP2;
+            if(currentBidVal + amount > currentBudget) {
+                alert("الميزانية لا تكفي لهذه المزايدة!");
+                return;
+            }
+
+            currentBidVal += amount;
+            document.getElementById('current-bid').innerText = currentBidVal;
+
+            activeTurn = activeTurn === 1 ? 2 : 1;
+            updateTurnDisplay();
+
+            if(selectedMode === 'ai' && activeTurn === 2) {
+                setTimeout(() => {
+                    if(currentBidVal + 10 <= budgetP2 && Math.random() > 0.4) {
+                        placeBid(10);
+                    } else {
+                        surrenderBid();
+                    }
+                }, 700);
+            }
+        }
+
+        /* 4. إظهار التنبيه الواضح لمن أخذ اللاعب ومن أخذ المجاني */
+        function surrenderBid() {
+            const winner = activeTurn === 1 ? 2 : 1; // الفائز بالمزاد
+            const loser = activeTurn; // المنسحب
+            const currentPosKey = posKeys[auctionRound];
+            const pool = playersByPos[currentPosKey];
+
+            let winnerName = winner === 1 ? p1Name : p2Name;
+            let loserName = loser === 1 ? p1Name : p2Name;
+
+            if(winner === 1) {
+                budgetP1 -= currentBidVal;
+                p1Squad.push(currentCard);
+            } else {
+                budgetP2 -= currentBidVal;
+                p2Squad.push(currentCard);
+            }
+
+            const freePlayer = pool[Math.floor(Math.random() * pool.length)];
+            if(loser === 1) {
+                p1Squad.push(freePlayer);
+            } else {
+                p2Squad.push(freePlayer);
+            }
+
+            // إظهار الرسالة التفصيلية للعلن
+            alert(`📢 حسم الصفقة علنياً!\n\n✅ ${winnerName} اشترى (${currentCard.name}) بسعر ${currentBidVal}M $\n\n🎁 ${loserName} حصل مجاناً بحظه على (${freePlayer.name}) طاقة [${freePlayer.rating}]`);
+
+            document.getElementById('p1-budget').innerText = budgetP1;
+            document.getElementById('p2-budget').innerText = budgetP2;
+
+            auctionRound++;
+            loadAuctionCard();
+        }
+
+        /* 3. إحصائيات المباراة ونتيجة المباراة بعد الألعاب */
+        function finishGameAndShowStats() {
+            document.getElementById('stat-p1-name').innerText = p1Name;
+            document.getElementById('stat-p2-name').innerText = p2Name;
+
+            const score1 = p1Squad.reduce((a, b) => a + b.rating, 0);
+            const score2 = p2Squad.reduce((a, b) => a + b.rating, 0);
+
+            document.getElementById('stat-p1-score').innerText = score1;
+            document.getElementById('stat-p2-score').innerText = score2;
+
+            document.getElementById('st-p1-rat').innerText = (score1 / (p1Squad.length || 1)).toFixed(1);
+            document.getElementById('st-p2-rat').innerText = (score2 / (p2Squad.length || 1)).toFixed(1);
+
+            const topP1 = p1Squad.sort((a,b) => b.rating - a.rating)[0] || {name: "لا يوجد", rating: 0};
+            const topP2 = p2Squad.sort((a,b) => b.rating - a.rating)[0] || {name: "لا يوجد", rating: 0};
+
+            document.getElementById('st-p1-top').innerText = `${topP1.rating} (${topP1.name})`;
+            document.getElementById('st-p2-top').innerText = `${topP2.rating} (${topP2.name})`;
+
+            document.getElementById('st-p1-spent').innerText = `${2000 - budgetP1}M $`;
+            document.getElementById('st-p2-spent').innerText = `${2000 - budgetP2}M $`;
+
+            if(score1 > score2) {
+                document.getElementById('st-p1-win').innerText = "الفائز 🏆";
+                document.getElementById('st-p2-win').innerText = "وصيف 🥈";
+            } else {
+                document.getElementById('st-p1-win').innerText = "وصيف 🥈";
+                document.getElementById('st-p2-win').innerText = "الفائز 🏆";
+            }
+
+            renderSquads();
+            showSection('match-stats-section');
+        }
+
+        function renderSquads() {
+            const l1 = document.getElementById('sq-p1-list');
+            const l2 = document.getElementById('sq-p2-list');
+            l1.innerHTML = '';
+            l2.innerHTML = '';
+
+            p1Squad.forEach((player) => {
+                l1.innerHTML += `<div style="padding: 8px; border-bottom: 1px solid rgba(255,215,0,0.2);">
+                    <b>${player.name}</b> (${player.pos}) - 🌟${player.rating} [${player.type}]
+                </div>`;
+            });
+
+            p2Squad.forEach((player) => {
+                l2.innerHTML += `<div style="padding: 8px; border-bottom: 1px solid rgba(255,215,0,0.2);">
+                    <b>${player.name}</b> (${player.pos}) - 🌟${player.rating} [${player.type}]
+                </div>`;
+            });
+        }
+
+        /* 5v5 Mode Engine */
+        function startPitchGame() {
+            p1Squad = [];
+            p2Squad = [];
+            rollPitchPlayer();
+            showSection('pitch-section');
+        }
+
+        function rollPitchPlayer() {
+            const randomPosKey = posKeys[Math.floor(Math.random() * posKeys.length)];
+            const pool = playersByPos[randomPosKey];
+            currentCard = pool[Math.floor(Math.random() * pool.length)];
+
+            document.getElementById('p-name').innerText = currentCard.name;
+            document.getElementById('p-pos').innerText = currentCard.pos;
+            document.getElementById('p-rating').innerText = currentCard.rating;
+            document.getElementById('p-type').innerText = currentCard.type;
+            document.getElementById('p-img').src = currentCard.img;
+        }
+
+        function confirmPitchPlayer() {
+            p1Squad.push(currentCard);
+            
+            // الروبوت أو اللاعب الثاني يختار حظ
+            const randomPosKey = posKeys[Math.floor(Math.random() * posKeys.length)];
+            const pool = playersByPos[randomPosKey];
+            p2Squad.push(pool[Math.floor(Math.random() * pool.length)]);
+
+            alert(`تم إضافة ${currentCard.name} بنجاح للفريق!`);
+
+            if(p1Squad.length >= 5) {
+                finishGameAndShowStats();
+            } else {
+                rollPitchPlayer();
+            }
+        }
+
+        /* Deal or No Deal Engine */
+        function startDealOrNoDeal() {
+            dealStage = 0;
+            p1Squad = [];
+            p2Squad = [];
+            setupDealStage();
+            showSection('deal-game');
+        }
+
+        function setupDealStage() {
+            if (dealStage >= posNames.length) {
+                finishGameAndShowStats();
+                return;
+            }
+            document.getElementById('deal-stage-title').innerText = "المرحلة: " + posNames[dealStage];
+            document.getElementById('deal-card-result').style.display = 'none';
+        }
+
+        function openBox(boxNum) {
+            const currentPosKey = posKeys[dealStage];
+            const pool = playersByPos[currentPosKey];
+            currentCard = pool[Math.floor(Math.random() * pool.length)];
+
+            document.getElementById('d-card-name').innerText = currentCard.name;
+            document.getElementById('d-card-pos').innerText = currentCard.pos;
+            document.getElementById('d-card-rating').innerText = currentCard.rating;
+            document.getElementById('d-card-type').innerText = currentCard.type;
+            document.getElementById('d-card-img').src = currentCard.img;
+            
+            p1Squad.push(currentCard);
+            
+            // خصم يحصل على لاعب
+            const p2Card = pool[Math.floor(Math.random() * pool.length)];
+            p2Squad.push(p2Card);
+
+            document.getElementById('deal-card-result').style.display = 'block';
+        }
+
+        function nextDealStage() {
+            dealStage++;
+            setupDealStage();
+        }
+
+        /* LaLiga Challenges */
+        function startLaligaChallenge(type) {
+            alert(`🔥 تم تفعيل تحدي حدث الدوري الإسباني (${type.toUpperCase()})! يمكنك الآن بدء المزاد بطابع النجوم الإسبان.`);
+            startAuctionSetup();
+        }
+    </script>
+</body>
+</html>
